@@ -5,13 +5,16 @@ import fetchWeatherForecast from '../api-services/api-service';
 const WeatherPage = () => {
   const [forecastData, setForecastData] = useState(null);
   const [searchTerm, setSearchTerm] = useState('Bangalore');
+  const [apiError, setApiError] = useState(false); 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await fetchWeatherForecast(searchTerm); // Fetch data based on searchTerm
         setForecastData(data); // Update forecastData with new data
+        setApiError(false); 
       } catch (error) {
+        setApiError(true); 
         console.log("error", error);
       }
     };
@@ -47,13 +50,13 @@ const WeatherPage = () => {
         </form>
       </div>
 
-      {forecastData === undefined && (
+      {apiError && (
         <div className="error">
           <div class="error"> Server Error </div>
         </div>
       )}
 
-      {forecastData && (
+      {forecastData && !apiError && (
         <div className="card">
           <h2>{getLocationName()} <br/>{new Date(forecastData.data.time).toLocaleDateString()}</h2>
           <h3>Cloudy<span>Wind {forecastData.data.values.windSpeed}km/h <span className="dot">•</span> Precip {forecastData.data.values.precipitationProbability}%</span></h3>
