@@ -38,7 +38,7 @@ const WeatherPage = () => {
 
 
 const SearchBar = ({ onSearch }) => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState('Bangalore');
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
